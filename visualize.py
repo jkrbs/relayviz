@@ -13,7 +13,7 @@ mod, params = testing.resnet.get_workload(
 def _traverse_expr(node, node_dict):
     if node in node_dict:
         return
-    if isinstance(node, relay.op.op.Op):
+    if isinstance(node, tvm.ir.op.Op):
         return 
     node_dict[node] = len(node_dict)
 
@@ -33,7 +33,7 @@ for node, node_idx in node_dict.items():
         dot.node(str(node_idx), f'Call(op={node.op.name})')
         for arg in args:
             dot.edge(str(arg), str(node_idx))
-    elif isinstance(node, relay.expr.Function):
+    elif isinstance(node, tvm.relay.function.Function):
         print(f'node_idx: {node_idx}, Function(body={node_dict[node.body]})')
         dot.node(str(node_idx), f'Function')
         dot.edge(str(node_dict[node.body]), str(node_idx))
